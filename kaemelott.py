@@ -7,6 +7,7 @@ from requests_service import get_json, get_json_fields
 def get_random():
     output = get_json("https://kaamelott.chaudie.re/api/random")
 
+    # todo: extract get_kaamelott
     citation = output.get("citation")
 
     infos = citation.get("infos")
@@ -17,13 +18,15 @@ def get_random():
     return f"{text} - {personnage}\n{saison} - {episode}"
 
 
+def get_characters_list():
+    with open("personnages.txt", "r", encoding="utf-8") as file:
+        return file.read().split("\n")
+
+
 def main(nb_of_items):
     if __name__ == '__main__':
         for i in range(nb_of_items):
-            print(get_random())
+            print(f"{get_random()}\n")
 
 
-main()
-
-# todo: trouver un moyen de stocker la liste des personnages https://github.com/sin0light/api-kaamelott/#liste-des-personnages
-# et de le lire depuis ce programme
+print(get_characters_list())
