@@ -3,15 +3,13 @@ from requests_service import get_json
 
 def find_a_joke():
     json = get_json('https://geek-jokes.sameerkumar.website/api?format=json')
-    joke = json.get("joke")
-
-    return joke
+    return json.get("joke")
 
 
-def main(nb_of_jokes):
+def main(nb_of_items):
     if __name__ == '__main__':
-        for i in range(nb_of_jokes):
-            print(find_a_joke())
+        for i in range(nb_of_items):
+            print(f"{find_a_joke()}\n")
 
 
 main(5)

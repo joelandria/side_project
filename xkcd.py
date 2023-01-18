@@ -1,19 +1,13 @@
-from requests_service import get_json
+"""
+a module to get XKCD comic
+"""
+from requests_service import get_json_fields
 from random import randint
 
 
 def get_xkcd(url):
-    json = get_json(url)
-    title = json.get("safe_title")
-    alt = json.get("alt")
-    image_link = json.get("img")
-    number = json.get("num")
-    return {
-        "number": number,
-        "title": title,
-        "alt": alt,
-        "image_link": image_link
-    }
+    # we only want "interesting" fields
+    return get_json_fields(url, ["safe_title", "alt", "img", "num"])
 
 
 def get_current():
@@ -21,17 +15,21 @@ def get_current():
 
 
 def get_random():
-    # get last comic number
-    last_number = get_current().get("number")
+    last_number = get_current().get("num")
     random_number = randint(1, last_number)
 
     return get_xkcd(f"https://xkcd.com/{random_number}/info.0.json")
 
 
-def main(nb_of_jokes):
+def nice_display(xkcd_json):
+    return f"\n{xkcd_json.get('safe_title')}\n{xkcd_json.get('alt')}\n{xkcd_json.get('img')}"
+
+
+def main(nb_of_items):
     if __name__ == '__main__':
-        for i in range(nb_of_jokes):
-            print(get_random())
+        for i in range(nb_of_items):
+            random = get_random()
+            print(nice_display(random))
 
 
 main(5)
