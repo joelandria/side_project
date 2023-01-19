@@ -1,8 +1,6 @@
-from requests_service import get_json, get_json_fields
+from requests_service import get_json
+import requests
 
-
-# idées en vrac
-# base url : https://kaamelott.chaudie.re/api
 
 def get_random():
     output = get_json("https://kaamelott.chaudie.re/api/random")
@@ -21,6 +19,15 @@ def get_random():
 def get_characters_list():
     with open("personnages.txt", "r", encoding="utf-8") as file:
         return file.read().split("\n")
+
+
+# todo: GET /random/personnage/:personnage
+
+def get_character_picture(character):
+    with requests.get(f"https://kaamelott.chaudie.re/api/personnage/{character}/pic") as response:
+        with open(f"pictures/{character}.jpg", "xb") as file:
+            file.write(response.content)
+            print(f"picture of {character} is now saved in pictures/ folder")
 
 
 def main(nb_of_items):
